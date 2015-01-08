@@ -1,0 +1,82 @@
+<html>
+<head>
+<script src="angular.js"></script>
+<link rel="stylesheet" type="text/css" href="librivox_search.css">
+<script>
+    var librivoxSearch = angular.module('librivoxSearch', []);
+    librivoxSearch.controller('librivoxSearchController', function ($scope, $http) {
+        // book data:
+        baseURL = 'https://librivox.org/api/feed/audiobooks/'; // base URL
+        $scope.hideDesc = 'true'; // a value causes description to HIDE -- a little confusing
+        $scope.showDesc = false;
+        // button method
+        $scope.processSearch = function () {  // there is nothing to pass to the function
+            // First time empty search term submission is undefined, second is ''
+            // Default maximum records return is 50 -- which seems to be about as many 
+            // books as one might expect any author to have written -- or at least is probably
+            // more than have been audio recorded; but the number CAN be changed, if needed.
+            // We want to be able to suppress display of description with a checkbox option. use ng-hide
+            $scope.data = '';  // needed for ng-repeat display
+            $scope.searchURL = baseURL;   // base URL
+            $scope.records = '';  // number of records returned
+            if ($scope.filterText == undefined) {
+                $scope.filterText = ''; // otherwise data does not display on first search
+            }
+            // hideDesc = "" = false = show the element; hideDesc = "true" = hide the element
+            $scope.showDesc == true ? $scope.hideDesc = '' : $scope.hideDesc = "true";
+            // Assemble the JSONP URL
+            jsonp = '?format=jsonp&callback=JSON_CALLBACK';
+            if ($scope.searchTerm != undefined && $scope.searchTerm != '') {
+                $scope.searchURL += "author/" + $scope.searchTerm;
+            }
+            $scope.searchURL += jsonp;
+            $http.jsonp($scope.searchURL).success(function (data, status) {
+                $scope.data = data;
+                $scope.status = status;
+                $scope.records += 'Number of Author Records: ' + data.books.length; // + ' showDesc: ' + $scope.showDesc; = undefined ???
+                 // We need a no records found message. See error()
+                // Clean up the HTML tags in the description data
+                // regex removes all HTML tags:  str.replace(/<\/?[^>]+>/gi, '')  "gi" modifier is global and case insensitive
+                for (var i = 0; i < data.books.length; i++) {
+                    data.books[i].description = data.books[i].description.replace(/<\/?[^>]+>/gi, '');
+                }
+            }).error(function (data, status) {
+                $scope.status = status;
+                switch(status) {
+                    case 404:
+                        $scope.records = 'No such author was found in the database. Error: ' + status;
+                        break;
+                    case 500:
+                        $scope.records = 'Server error. Please try again later. Error: ' + status;
+                        break;
+                    default:
+                        $scope.records = 'Unknown error. Please report to email@domain.com.'
+                } 
+            });  // end of jsonp(), success() and error()
+        }
+    });
+</script>
+</head>
+<body ng-app="librivoxSearch">
+    <div ng-controller="librivoxSearchController" class="librivoxSearchWidget">
+      <form role="search" id="searchform" class="searchform">
+        <h1 class="librivoxSearchHeader">Search Libri<b>VOX</b></h1>
+		<p>Author Last Name: <input type="text" name="searchTerm" ng-model="searchTerm" ng-trim></p>
+        <p>Filter by Title: <input ng-model="filterText"></p>
+        <p><label><input type="checkbox" ng-model="showDesc"> Show full book description.</label></p>
+		<input type="button" value="Search" ng-click="processSearch()" id="librivoxSearchSubmit" name="librivoxSearchSubmit" class="librivoxSearchSubmit">
+	  </form
+    <p>{{ records }}</p>
+      <span ng-repeat="book in data.books | filter:{title:filterText}" class="book-data">
+            <p>ID: {{ book.id }}</p>
+            <p>TITLE: {{ book.title }}</p>
+            <p>AUTHOR: {{ book.authors[0].first_name }} &nbsp;{{ book.authors[0].last_name }}</p>
+            <p ng-hide="hideDesc" class="ng-hide">DESCRIPTION: {{ book.description }}</p>
+            <p>ZIP FILE DOWNLOAD: <a href="{{ book.url_zip_file }}">{{ book.url_zip_file }}</a></p>
+            <p>LIBRIVOX URL: <a href="{{ book.url_librivox }}">{{ book.url_librivox }}</a></p>
+            <p>TOTAL TIME: {{ book.totaltime }}</p>
+            <p>***********************************</p>
+       </span>
+     </div>
+</body>
+</html>
