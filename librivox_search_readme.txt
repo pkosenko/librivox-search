@@ -14,7 +14,7 @@ means of learning the Angular functionality than that it is needed to do what th
 help in the future, if Librivox improves its API.
 
 If you want to see a very serious use of the Librivox API, try this entirely redo of Librivox using its remote 
-API, look at http://librivox.bookdesign.biz/  They also have Android and IPhone Apps.  This is far beyond anything
+API: http://librivox.bookdesign.biz/  They also have Android and IPhone Apps.  This is far beyond anything
 that I have done.
 
 ****************
