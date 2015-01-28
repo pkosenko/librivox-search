@@ -1,0 +1,23 @@
+<!-- this is a single book template -->
+<div class="book-data">
+    <p>ID: {{ book.id }}</p>
+    <p ng-if="error">{{ error }}</p>
+    <p>AUTHOR(S):</p>
+    <span ng-repeat="author in book.authors">
+    <p>{{ author.first_name }} &nbsp;{{ author.last_name }} &nbsp;{{ author.dob }}-{{ author.dod }}</p>
+    </span>
+    <p>TITLE: {{ book.title }}</p>
+    <p>DESCRIPTION: {{ book.description | htmlToPlaintext }}</p>
+    <p><a href="{{ book.url_zip_file }}">DOWNLOAD AUDIOBOOK ZIP FILE</a></p>
+    <p>TOTAL TIME: {{ book.totaltime }} TOTAL SECONDS: {{ book.totaltimesecs }}</p>
+    <p><a href="{{ book.url_librivox }}">LIBRIVOX BOOK INFO PAGE</a></p>
+    <p>TEXT SOURCE: <a href="{{ book.url_text_source }}">{{ book.url_text_source }}</a></p>
+    <p>LANGUAGE: {{ book.language }}</p>
+    <p>COPYRIGHT: {{ book.copyright_year }}</p>
+    <p>NUMBER OF SECTIONS: {{ book.num_sections }}</p>
+    <p>RSS URL: <a href="{{ book.url_rss }}">{{ book.url_rss }}</a></p>
+    <p>PROJECT URL: <a href="{{ book.url_project }}">{{ book.url_project }}</a></p>
+    <p ng-if="book.url_other">OTHER URL: <a href="{{ book.url_other }}">{{ book.url_other }}</a></p>
+    <p>NUMBER OF AUTHORS: {{ book.authors.length }}</p>
+</div>
+     

@@ -1,0 +1,31 @@
+<html>
+<head>
+<script src="angular.min.js"></script>
+<script src="angular-route.min.js"></script>
+<link rel="stylesheet" type="text/css" href="librivox_search_with_views.css">
+
+</head>
+<body ng-app="librivoxSearch">
+    <div ng-controller="librivoxSearchController" class="librivoxSearchWidget leftblock">
+      <form role="search" id="searchform" class="searchform">
+        <h1 class="librivoxSearchHeader">Search Libri<b>VOX</b></h1>
+		<p>Author Last Name: <input type="text" name="searchTerm" ng-model="searchTerm" ng-trim></p>
+        <p>Filter by Title: <input ng-model="filterText"></p>
+		<input type="button" value="Search" ng-click="processSearch()" id="librivoxSearchSubmit" name="librivoxSearchSubmit" class="librivoxSearchSubmit">
+	  </form
+    <p>{{ records }}</p>
+      <span ng-repeat="book in data.books | filter:{title:filterText}" class="book-data">
+            <p>AUTHOR(S):</p>
+            <span ng-repeat = "author in book.authors">
+                <p>{{ author.first_name }} &nbsp;{{ author.last_name }}</p>
+            </span> 
+            <p>TITLE: {{ book.title }}</p>
+            <p><a href="#Book/{{ book.id }}">DISPLAY FULL BOOK DATA</a></p>
+            <p>***********************************</p>
+       </span>
+     </div>
+    <div ng-view="" class="rightblock">
+    </div>
+    <script src="librivox_search_with_views.js"></script>
+</body>
+</html>
