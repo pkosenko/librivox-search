@@ -105,20 +105,6 @@
         }
     }); 
 
-    // Create a service that can be used by multiple controllers
-    /*
-    librivoxSearch.factory('AlbumService', function ($http) {
-
-        var SearchDataService;
-
-        // $http request and assign response to service
-        $http.get('https://graph.facebook.com/v2.0/1234567890/albums?fields=id,type,name,cover_photo,description&access_token=TOKEN')
-        .success(function(data) {
-            SearchDataService = data;
-        });
-        return AlbumService;
-    });
-    */
 
 
    
