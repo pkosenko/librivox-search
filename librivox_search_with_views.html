@@ -14,13 +14,15 @@
 		<input type="button" value="Search" ng-click="processSearch()" id="librivoxSearchSubmit" name="librivoxSearchSubmit" class="librivoxSearchSubmit">
 	  </form
     <p>{{ records }}</p>
+    
       <span ng-repeat="book in data.books | filter:{title:filterText}" class="book-data">
+            <p>BOOK ID: {{ book.id }}</p>
             <p>AUTHOR(S):</p>
             <span ng-repeat = "author in book.authors">
                 <p>{{ author.first_name }} &nbsp;{{ author.last_name }}</p>
             </span> 
             <p>TITLE: {{ book.title }}</p>
-            <p><a href="#Book/{{ book.id }}">DISPLAY FULL BOOK DATA</a></p>
+            <p><a href="#Book/{{ bookIds.indexOf(book.id) }}">DISPLAY FULL BOOK DATA</a></p>
             <p>***********************************</p>
        </span>
      </div>
