@@ -1,0 +1,25 @@
+{
+  "name": "librivox-search",
+  "version": "0.0.0",
+  "homepage": "https://github.com/pkosenko/librivox-search",
+  "authors": [
+    "Peter Kosenko <peter1253@yahoo.com>"
+  ],
+  "description": "Librivox.org search app",
+  "main": "librivox_search_with_views.html",
+  "keywords": [
+    "librivox",
+    "search"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-ui-router": "~0.2.15"
+  }
+}
