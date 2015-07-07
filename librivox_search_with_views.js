@@ -1,6 +1,6 @@
     // Librivox Search Angular Module
 
-    var librivoxSearch = angular.module('librivoxSearch', ['ngRoute']);
+    var librivoxSearch = angular.module('librivoxSearch', ['ui.router', 'blndspt.ngPerformance']);
     librivoxSearch.controller('librivoxSearchController', function ($scope, $http, searchData) {
         // book data:
         baseURL = 'https://librivox.org/api/feed/audiobooks/'; // base URL
@@ -75,15 +75,19 @@
     });
 
     // Route controllers
-    librivoxSearch.controller('BookController', function ($scope, $http, $routeParams, searchData) {
+    librivoxSearch.controller('BookController', function ($scope, $http, $stateParams, searchData) {
         // bookIndex is retrieved from $scope.bookIds in the search controller and passed as a route
         // parameter for the individual book.html view.
-        $scope.params = $routeParams;
-        $scope.book = searchData.getBook($routeParams.bookIndex);  // get the book object from the searchData service
+        $scope.params = $stateParams;
+        $scope.book = searchData.getBook($stateParams.bookIndex);  // get the book object from the searchData service
     });
 
-    // Route configuration
+    // Route configuration for ng-router -- disabled
+    // Why when I disable regular ngRoute are the listing data markers suddenly showing up 
+    // in the search listing for no data, and the search is no longer working.
+    // The ui-view has NOTHING to do with any of that?
 
+    /* 
     librivoxSearch.config(function($routeProvider, $locationProvider) {
         $routeProvider
         .when('/Book/:bookIndex', { // use ng-repeat $index as book ID
@@ -92,9 +96,23 @@
             // resolve: is not needed here (YET?)
          })
     });
+    */
+
+    // Route configuration for ui-router
+    // I guess we can either go() to the state, or 
+    // go to it by entering the URL?
+    // Note: $urlRouteProvider is NOT a service (it is "$urlRouterProvider") -- used for redirection of erroneous URLS
+
+    librivoxSearch.config(function ($stateProvider, $urlRouterProvider) {
+        $stateProvider
+            .state('book', {
+                url: '/Book/:bookIndex',
+                templateUrl: 'book.html',
+                controller: 'BookController'
+            });
+    });
 
     // filter to strip out HTML
-
     librivoxSearch.filter('htmlToPlaintext', function () {
         return function (text) {
             return String(text).replace(/<\/?[^>]+>/gi, '');
