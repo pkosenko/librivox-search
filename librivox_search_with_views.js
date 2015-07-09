@@ -1,11 +1,16 @@
     // Librivox Search Angular Module
 
     var librivoxSearch = angular.module('librivoxSearch', ['ui.router', 'blndspt.ngPerformance']);
-    librivoxSearch.controller('librivoxSearchController', function ($scope, $http, searchData) {
+    librivoxSearch.controller('librivoxSearchController', function ($scope, $http, searchData, $state) {
         // book data:
         baseURL = 'https://librivox.org/api/feed/audiobooks/'; // base URL
         $scope.hideDesc = 'true'; // a value causes description to HIDE -- a little confusing
         $scope.showDesc = false;
+        // Scope function to change the class name of the book view based on state
+        $scope.bookViewClass = function () {
+            // state name is 'book' or 'default'  = state.current.name
+            return ($state.current.name == 'default') ? 'rightblock-white' : 'rightblock-green';
+        };
         // button method
         $scope.processSearch = function () {  // there is nothing to pass to the function
             // First time empty search term submission is undefined, second is ''
@@ -109,6 +114,11 @@
                 url: '/Book/:bookIndex',
                 templateUrl: 'book.html',
                 controller: 'BookController'
+            })
+            .state('default', {
+                // leave the view blank -- will this work?
+                url: '',
+                template: ''
             });
     });
 

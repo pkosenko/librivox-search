@@ -1,18 +1,21 @@
 <html>
 <head>
 
-<link rel="stylesheet" type="text/css" href="librivox_search_with_views.css">
+<link rel="stylesheet" type="text/css" href="librivox_search_with_views.css" />
+<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css" />
 
 </head>
 <body ng-app="librivoxSearch">
-
-    <div ng-controller="librivoxSearchController" class="librivoxSearchWidget leftblock">
+    <div ng-controller="librivoxSearchController">
+    <div class="librivoxSearchWidget leftblock">
       <form role="search" id="searchform" class="searchform">
         <h1 class="librivoxSearchHeader">Search Libri<b>VOX</b></h1>
 		<p>Author Last Name: <input type="text" name="searchTerm" ng-model="searchTerm" ng-trim></p>
         <p>Filter by Title: <input ng-model="filterText"></p>
 		<input type="button" value="Search" ng-click="processSearch()" id="librivoxSearchSubmit" name="librivoxSearchSubmit" class="librivoxSearchSubmit">
 	  </form>
+        <p>state.current.name: {{ state.current.name }}</p>
+        <p>bookViewClass: {{ bookViewClass() }}</p>
         <div ng-cloak>
     <p>{{ records }}</p>
     
@@ -31,8 +34,9 @@
             <p>***********************************</p>
        </span>
             </div>
-     </div>
-    <div ui-view class="rightblock">
+                    </div>
+            <div ui-view ng-class="bookViewClass()">
+        </div>
     </div>
     <script src="bower_components/angular/angular.min.js"></script>
 <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>

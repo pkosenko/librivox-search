@@ -7,10 +7,18 @@
     box-sizing: border-box;
 }
 
-.rightblock {
+.rightblock-green {
     float:  right;
     width:  50%;
     background-color: #c1fcc1;
+    padding: 10px 25px 10px 10px;
+    box-sizing: border-box;
+}
+
+.rightblock-white {
+    float:  right;
+    width:  50%;
+    background-color: #ffffff;
     padding: 10px 25px 10px 10px;
     box-sizing: border-box;
 }
