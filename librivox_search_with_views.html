@@ -12,6 +12,7 @@
 		<p>Author Last Name: <input type="text" name="searchTerm" ng-model="searchTerm" ng-trim></p>
         <p>Filter by Title: <input ng-model="filterText"></p>
 		<input type="button" value="Search" ng-click="processSearch()" id="librivoxSearchSubmit" name="librivoxSearchSubmit" class="librivoxSearchSubmit">
+        <input type="button" ng-click="reset()" value="Reset" />
 	  </form>
         <div ng-cloak>
     <p>{{ records }}</p>

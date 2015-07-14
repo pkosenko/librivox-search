@@ -1,7 +1,7 @@
     // Librivox Search Angular Module
 
     var librivoxSearch = angular.module('librivoxSearch', ['ui.router', 'blndspt.ngPerformance']);
-    librivoxSearch.controller('librivoxSearchController', function ($scope, $http, searchData, $state) {
+    librivoxSearch.controller('librivoxSearchController', function ($scope, $http, searchData, $state, $location) {
         // book data:
         baseURL = 'https://librivox.org/api/feed/audiobooks/'; // base URL
         $scope.hideDesc = 'true'; // a value causes description to HIDE -- a little confusing
@@ -11,7 +11,19 @@
             // state name is 'book' or 'default'  = state.current.name
             return ($state.current.name == 'default') ? 'rightblock-white' : 'rightblock-green';
         };
-        // button method
+        $scope.reset = function () {
+            // clear the search box
+            $scope.searchTerm = '';
+            // clear the filter
+            $scope.filterText = '';
+            // clear the result number
+            $scope.records = '';
+            // empty the data object 
+            $scope.data = {};
+            // remove any existing record display from the view . . . return to 'default' blank state
+            $state.go('default');
+        };
+        // search button method
         $scope.processSearch = function () {  // there is nothing to pass to the function
             // First time empty search term submission is undefined, second is ''
             // Default maximum records return is 50 -- which seems to be about as many 
@@ -23,14 +35,14 @@
             $scope.searchURL = baseURL;   // base URL
             if ($scope.filterText == undefined) {
                 $scope.filterText = ''; // otherwise data does not display on first search
-            }
+            };
             // hideDesc = "" = false = show the element; hideDesc = "true" = hide the element
             $scope.showDesc == true ? $scope.hideDesc = '' : $scope.hideDesc = "true";
             // Assemble the JSONP URL
             jsonp = '?format=jsonp&callback=JSON_CALLBACK';
             if ($scope.searchTerm != undefined && $scope.searchTerm != '') {
                 $scope.searchURL += "author/" + $scope.searchTerm;
-            }
+            };
             $scope.searchURL += jsonp;
             $http.jsonp($scope.searchURL).success(function (data, status) {
                 $scope.data = data;
