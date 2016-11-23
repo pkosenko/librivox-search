@@ -1,5 +1,5 @@
-(function (angular) {
 
+(function (angular) {
   'use strict';
 
   /**
@@ -15,9 +15,9 @@
     if (_el[id]) {
       _el[id].textContent = text;
     }
-  };  // semicolon was not here
+  } // no semi
 
-var ngPerformanceModule = angular.module('blndspt.ngPerformance', []);
+  var ngPerformanceModule = angular.module('blndspt.ngPerformance', []);
 
   ngPerformanceModule.directive('ngPerformance', [
       '$log',
@@ -26,7 +26,7 @@ var ngPerformanceModule = angular.module('blndspt.ngPerformance', []);
       '$rootScope',
       function ($log, $window, $document, $rootScope) {
 
-        //Initialize performance stats variables
+        // Initialize performance stats variables
         var ngStart = (performance != null) ? performance.now() : 0;
         var stats = ($window.perfStats) ? $window.perfStats :
         {
@@ -43,12 +43,14 @@ var ngPerformanceModule = angular.module('blndspt.ngPerformance', []);
 
         stats.timeToAngular = (ngStart - stats.headStart);
 
-        //Count Scopes and Watchers
+        // Count Scopes and Watchers
         var _countScopesWatchers = function () {
           // This logic is borrowed from $digest(). Keep it in sync!
-          var next, current, target = $rootScope;
-          var scopes = 0,
-            watchers = 0;
+          var next;
+          var current;
+          var target = $rootScope;
+          var scopes = 0;
+          var watchers = 0;
 
           current = target;
           do {
@@ -74,7 +76,7 @@ var ngPerformanceModule = angular.module('blndspt.ngPerformance', []);
         return {
           templateUrl: 'ngPerformance.html',
           restrict: 'EA',
-          link: function (/*scope, element, attrs*/) {
+          link: function (/* scope, element, attrs */) {
 
             // Cache DOM elements
             _el = {
@@ -111,11 +113,11 @@ var ngPerformanceModule = angular.module('blndspt.ngPerformance', []);
             // If the browser doesn't support Web Performance API
             // (I'm looking at you, Safari), don't even try.
             if (performance != null) {
-              var digestCycles = 0,
-                digestStart = 0,
-                sumDigestMs = 0,
-                maxDigestMs = 0,
-                dirtyChecks = 0;
+              var digestCycles = 0;
+              var digestStart = 0;
+              var sumDigestMs = 0;
+              var maxDigestMs = 0;
+              var dirtyChecks = 0;
 
               // $digest loop uses a reverse while.
               // Pushing onto the end of $$watchers array makes this run first...
@@ -163,8 +165,8 @@ var ngPerformanceModule = angular.module('blndspt.ngPerformance', []);
                       _setText('#digest-cycles', digestCycles);
 
                       var count = _countScopesWatchers();
-                      var scopes = count[0],
-                        watchers = count[1];
+                      var scopes = count[0];
+                      var watchers = count[1];
 
                       _setText('#scopes', scopes);
                       _setText('#watchers', watchers);

@@ -1,3 +1,5 @@
 backup/
 bower_components/
 .git/backup/
+node_modules/
+e2e.conf.js

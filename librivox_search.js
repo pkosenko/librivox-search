@@ -1,5 +1,5 @@
     // Librivox Search Angular Module
-
+'use strict';
     var librivoxSearch = angular.module('librivoxSearch', []);
     librivoxSearch.controller('librivoxSearchController', function ($scope, $http) {
         // book data:
